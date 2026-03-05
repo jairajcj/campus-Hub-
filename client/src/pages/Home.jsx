@@ -30,78 +30,66 @@ export default function Home() {
         <>
             {/* ── HERO ── */}
             <section className="hero">
-                <div className="hero-bg">
-                    <div className="orb orb-1" />
-                    <div className="orb orb-2" />
-                    <div className="orb orb-3" />
-                    <div className="grid-lines" />
-                </div>
-                <div className="hero-content container">
-                    <div className="hero-badge">
-                        <Zap size={14} /> &nbsp;Your Campus. Your Community.
-                    </div>
-                    <h1 className="hero-title">
-                        Stay Connected.<br />
-                        <span className="gradient-text">Stay Informed.</span>
-                    </h1>
-                    <p className="hero-sub">
-                        The all-in-one digital hub for every student — share campus news, report
-                        lost items, and buy or sell used textbooks, all in one place.
-                    </p>
-                    <div className="hero-actions">
-                        <Link to="/news" className="btn btn-primary btn-lg"><Newspaper size={18} /> Browse News</Link>
-                        <Link to="/textbooks" className="btn btn-green btn-lg"><BookOpen size={18} /> Find Textbooks</Link>
-                        <Link to="/lostfound" className="btn btn-ghost btn-lg"><Search size={18} /> Lost &amp; Found</Link>
-                    </div>
-                    <div className="hero-stats">
-                        <div className="stat-item"><StatNum target={stats.newsCount} /><span className="stat-label">News Posts</span></div>
-                        <div className="stat-divider" />
-                        <div className="stat-item"><StatNum target={stats.lostCount} /><span className="stat-label">Lost Items</span></div>
-                        <div className="stat-divider" />
-                        <div className="stat-item"><StatNum target={stats.foundCount} /><span className="stat-label">Found Items</span></div>
-                        <div className="stat-divider" />
-                        <div className="stat-item"><StatNum target={stats.textbookCount} /><span className="stat-label">Textbooks</span></div>
+                <div className="container">
+                    <div className="hero-content">
+                        <span className="hero-badge">Campus Digital Hub</span>
+                        <h1 className="hero-title">Your Campus, <br />All in One Place</h1>
+                        <p className="hero-sub">
+                            Share news, find lost items, and buy/sell textbooks with fellow students.
+                            Fast, simple, and direct.
+                        </p>
+                        <div className="hero-actions">
+                            <Link to="/news" className="btn btn-primary">Browse News</Link>
+                            <Link to="/lostfound" className="btn btn-ghost">Lost & Found</Link>
+                            <Link to="/textbooks" className="btn btn-ghost">Textbooks</Link>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '40px', justifyContent: 'center', marginTop: '48px' }}>
+                            <div style={{ textAlign: 'center' }}>
+                                <div style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--primary)' }}><StatNum target={stats.newsCount} /></div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>NEWS POSTS</div>
+                            </div>
+                            <div style={{ textAlign: 'center' }}>
+                                <div style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--warning)' }}><StatNum target={stats.lostCount + stats.foundCount} /></div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>L&F REPORTS</div>
+                            </div>
+                            <div style={{ textAlign: 'center' }}>
+                                <div style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--success)' }}><StatNum target={stats.textbookCount} /></div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>BOOKS LISTED</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* ── FEATURES ── */}
-            <section className="page-section" style={{ paddingTop: '4rem' }}>
+            <section className="page-section">
                 <div className="container">
-                    <div className="section-header">
-                        <div className="section-badge primary"><Users size={13} /> Platform</div>
+                    <div className="section-header" style={{ textAlign: 'center' }}>
                         <h2 className="section-title">Everything for Campus Life</h2>
-                        <p className="section-sub">Three powerful tools, one seamless platform built just for students.</p>
+                        <p className="section-sub">Simple, powerful tools built for students.</p>
                     </div>
-                    <div className="features-grid">
-                        <div className="feature-card">
-                            <div className="feature-icon primary"><Newspaper size={22} /></div>
-                            <h3>Campus News</h3>
-                            <p>Post and discover announcements, events, academic updates, sports results and cultural happenings across campus.</p>
-                            <Link to="/news" className="btn btn-outline-primary btn-sm" style={{ marginTop: '1rem' }}>
-                                Explore News <ChevronRight size={15} />
-                            </Link>
+
+                    <div className="cards-grid">
+                        <div className="card">
+                            <h3 style={{ marginBottom: '8px' }}>📰 Campus News</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', flex: 1 }}>
+                                Stay updated with the latest announcements, events, and academic notices.
+                            </p>
+                            <Link to="/news" className="btn btn-primary btn-sm" style={{ alignSelf: 'flex-start', marginTop: '12px' }}>Explore News</Link>
                         </div>
-                        <div className="feature-card">
-                            <div className="feature-icon amber"><Search size={22} /></div>
-                            <h3>Lost &amp; Found</h3>
-                            <p>Lost your keys, ID, or laptop? Post a report or help someone else recover their belongings. Filter by category and location.</p>
-                            <Link to="/lostfound" className="btn btn-ghost btn-sm" style={{ marginTop: '1rem', borderColor: 'var(--amber)', color: 'var(--amber)' }}>
-                                View Board <ChevronRight size={15} />
-                            </Link>
+                        <div className="card">
+                            <h3 style={{ marginBottom: '8px' }}>🔍 Lost & Found</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', flex: 1 }}>
+                                Identify lost items or post something you found. Help your community.
+                            </p>
+                            <Link to="/lostfound" className="btn btn-ghost btn-sm" style={{ alignSelf: 'flex-start', marginTop: '12px' }}>View Board</Link>
                         </div>
-                        <div className="feature-card">
-                            <div className="feature-icon green"><BookOpen size={22} /></div>
-                            <h3>Used Textbooks</h3>
-                            <p>Buy and sell used textbooks with fellow students. Filter by subject, condition, and price. Contact sellers directly.</p>
-                            <Link to="/textbooks" className="btn btn-green btn-sm" style={{ marginTop: '1rem' }}>
-                                Browse Books <ChevronRight size={15} />
-                            </Link>
-                        </div>
-                        <div className="feature-card">
-                            <div className="feature-icon cyan"><Users size={22} /></div>
-                            <h3>Direct Contact</h3>
-                            <p>No middlemen — every post includes direct contact info so students can reach each other instantly via email or phone.</p>
+                        <div className="card">
+                            <h3 style={{ marginBottom: '8px' }}>📚 Used Textbooks</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', flex: 1 }}>
+                                The marketplace for students. Find cheap books or sell your old ones.
+                            </p>
+                            <Link to="/textbooks" className="btn btn-ghost btn-sm" style={{ alignSelf: 'flex-start', marginTop: '12px' }}>Browse Books</Link>
                         </div>
                     </div>
                 </div>
