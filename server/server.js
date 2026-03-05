@@ -10,7 +10,7 @@ const textbookRoutes = require('./routes/textbooks');
 const app = express();
 
 // Middleware
-app.use(cors({ origin: ['http://localhost:3000', 'http://localhost:5173'], credentials: true }));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -37,8 +37,19 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
+// Serve Static Files (Production Build)
+const path = require('path');
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
+    app.get('*', (req, res) => {
+        if (!req.path.startsWith('/api')) {
+            res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
+        }
+    });
+}
+
 // Health check
-app.get('/api/health', (req, res) => res.json({ status: 'OK', timestamp: new Date() }));
+app.get('/api/health', (req, res) => res.json({ status: 'OK', env: process.env.NODE_ENV }));
 
 // Connect DB and start server
 const PORT = process.env.PORT || 5000;
