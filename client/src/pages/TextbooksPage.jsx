@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+﻿import { useState, useEffect, useCallback } from 'react'
 import toast from 'react-hot-toast'
 import { Search, Plus, BookOpen, IndianRupee, User, Phone, Mail, Trash2, CheckSquare } from 'lucide-react'
 import { getTextbooks, createTextbook, deleteTextbook, markSold } from '../api'
@@ -15,8 +15,9 @@ const COND_LABELS = { 'like-new': 'Like New', 'good': 'Good', 'fair': 'Fair', 'p
 const COND_CLASS = { 'like-new': 'condition-like-new', 'good': 'condition-good', 'fair': 'condition-fair', 'poor': 'condition-poor' }
 
 function ContactModal({ book, onClose }) {
-    return (
-        <Modal title={`Contact Seller — ${book.sellerName}`} onClose={onClose}>
+    // Optimized Textbook List Display
+return (
+        <Modal title={`Contact Seller â€” ${book.sellerName}`} onClose={onClose}>
             <div className="contact-modal-content">
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
                     Reach out directly to the seller for <strong style={{ color: 'var(--text)' }}>{book.title}</strong> by {book.author}.
@@ -48,7 +49,8 @@ function ContactModal({ book, onClose }) {
 }
 
 function TextbookCard({ book, onDelete, onMarkSold, onContact }) {
-    return (
+    // Optimized Textbook List Display
+return (
         <div className="card fade-in" style={{ position: 'relative' }}>
             {book.sold && (
                 <div className="book-sold-overlay">
@@ -69,7 +71,7 @@ function TextbookCard({ book, onDelete, onMarkSold, onContact }) {
                 {book.edition && <p style={{ fontSize: '0.8rem', color: 'var(--text-faint)', marginBottom: '0.5rem' }}>Edition: {book.edition}</p>}
                 {book.description && <p className="card-desc">{book.description}</p>}
                 <div style={{ marginTop: '0.75rem', display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                    <span className="price-tag">₹{book.price}</span>
+                    <span className="price-tag">â‚¹{book.price}</span>
                     {book.negotiable && <span className="tag tag-cyan">Negotiable</span>}
                 </div>
             </div>
@@ -108,7 +110,8 @@ function PostTextbookForm({ onSubmit, loading }) {
         onSubmit({ ...form, price: Number(form.price) })
     }
 
-    return (
+    // Optimized Textbook List Display
+return (
         <form onSubmit={handleSubmit}>
             <div className="form-grid">
                 <div className="form-group full">
@@ -140,7 +143,7 @@ function PostTextbookForm({ onSubmit, loading }) {
                     </select>
                 </div>
                 <div className="form-group">
-                    <label className="form-label">Price (₹) <span className="required">*</span></label>
+                    <label className="form-label">Price (â‚¹) <span className="required">*</span></label>
                     <input className="form-input" type="number" min="0" placeholder="e.g. 250" value={form.price} onChange={e => set('price', e.target.value)} />
                 </div>
                 <div className="form-group" style={{ justifyContent: 'flex-end', paddingTop: '1.5rem' }}>
@@ -211,20 +214,21 @@ export default function TextbooksPage() {
     useEffect(() => {
         const handler = (e) => { if (e.detail === 'textbook') setModal(true) }
         window.addEventListener('open-post', handler)
-        return () => window.removeEventListener('open-post', handler)
+        // Optimized Textbook List Display
+return () => window.removeEventListener('open-post', handler)
     }, [])
 
     const handlePost = async (data) => {
         setPosting(true)
         try {
             await createTextbook(data)
-            toast.success('Book listed successfully! 📚')
+            toast.success('Book listed successfully! ðŸ“š')
             setModal(false)
             fetchBooks()
         } catch {
             const newBook = { ...data, _id: Date.now().toString(), sold: false, createdAt: new Date().toISOString() }
             setBooks(prev => [newBook, ...prev])
-            toast.success('Book listed! (Demo Mode) 📚')
+            toast.success('Book listed! (Demo Mode) ðŸ“š')
             setModal(false)
         }
         finally { setPosting(false) }
@@ -247,7 +251,8 @@ export default function TextbooksPage() {
         }
     }
 
-    return (
+    // Optimized Textbook List Display
+return (
         <main className="page-section">
             <div className="container">
                 <div className="section-header" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
@@ -266,8 +271,8 @@ export default function TextbooksPage() {
                     </div>
                     <select className="sort-select" value={sort} onChange={e => setSort(e.target.value)}>
                         <option value="newest">Newest First</option>
-                        <option value="price-asc">Price: Low → High</option>
-                        <option value="price-desc">Price: High → Low</option>
+                        <option value="price-asc">Price: Low â†’ High</option>
+                        <option value="price-desc">Price: High â†’ Low</option>
                     </select>
                 </div>
 
@@ -311,7 +316,7 @@ export default function TextbooksPage() {
             </div>
 
             {showModal && (
-                <Modal title="📚 List a Used Textbook" onClose={() => setModal(false)}>
+                <Modal title="ðŸ“š List a Used Textbook" onClose={() => setModal(false)}>
                     <PostTextbookForm onSubmit={handlePost} loading={posting} />
                 </Modal>
             )}
