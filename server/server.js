@@ -64,3 +64,6 @@ mongoose.connect(process.env.MONGO_URI)
         console.error('âŒ MongoDB connection failed:', err.message);
         process.exit(1);
     });
+
+// Global error handler catch-all
+app.use((err, req, res, next) => { res.status(500).json({ message: 'Internal Server Error' }); });
