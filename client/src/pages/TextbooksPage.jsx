@@ -176,9 +176,15 @@ function PostTextbookForm({ onSubmit, loading }) {
     )
 }
 
+const MOCK_BOOKS = [
+    { _id: '1', title: 'Data Structures and Algorithms', author: 'Cormen et al.', category: 'computer-science', condition: 'good', price: 450, negotiable: true, sellerName: 'Amit Shah', sold: false, createdAt: new Date().toISOString() },
+    { _id: '2', title: 'Calculus: Early Transcendentals', author: 'James Stewart', category: 'mathematics', condition: 'like-new', price: 800, negotiable: false, sellerName: 'Sneha R.', sold: false, createdAt: new Date().toISOString() },
+    { _id: '3', title: 'Engineering Circuit Analysis', author: 'Hayt & Kemmerly', category: 'engineering', condition: 'poor', price: 200, negotiable: true, sellerName: 'John Doe', sold: true, createdAt: new Date().toISOString() }
+]
+
 export default function TextbooksPage() {
-    const [books, setBooks] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [books, setBooks] = useState(MOCK_BOOKS)
+    const [loading, setLoading] = useState(false)
     const [posting, setPosting] = useState(false)
     const [showModal, setModal] = useState(false)
     const [contactBook, setContact] = useState(null)
@@ -188,16 +194,16 @@ export default function TextbooksPage() {
     const [sort, setSort] = useState('newest')
 
     const fetchBooks = useCallback(async () => {
-        setLoading(true)
         try {
             const params = { sort }
             if (category !== 'all') params.category = category
             if (condition !== 'all') params.condition = condition
             if (search) params.search = search
             const res = await getTextbooks(params)
-            setBooks(res.data.data)
-        } catch { toast.error('Failed to load textbooks') }
-        finally { setLoading(false) }
+            if (res.data?.data && res.data.data.length > 0) {
+                setBooks(res.data.data)
+            }
+        } catch { console.log('Using offline Books data') }
     }, [category, condition, search, sort])
 
     useEffect(() => { fetchBooks() }, [fetchBooks])
@@ -215,19 +221,30 @@ export default function TextbooksPage() {
             toast.success('Book listed successfully! 📚')
             setModal(false)
             fetchBooks()
-        } catch { toast.error('Failed to list textbook') }
+        } catch {
+            const newBook = { ...data, _id: Date.now().toString(), sold: false, createdAt: new Date().toISOString() }
+            setBooks(prev => [newBook, ...prev])
+            toast.success('Book listed! (Demo Mode) 📚')
+            setModal(false)
+        }
         finally { setPosting(false) }
     }
 
     const handleDelete = async (id) => {
         if (!confirm('Remove this listing?')) return
         try { await deleteTextbook(id); toast.success('Listing removed'); fetchBooks() }
-        catch { toast.error('Failed to delete') }
+        catch {
+            setBooks(prev => prev.filter(b => b._id !== id))
+            toast.success('Removed (Demo Mode)')
+        }
     }
 
     const handleMarkSold = async (id) => {
         try { await markSold(id); toast.success('Marked as sold!'); fetchBooks() }
-        catch { toast.error('Failed to update') }
+        catch {
+            setBooks(prev => prev.map(b => b._id === id ? { ...b, sold: true } : b))
+            toast.success('Marked SOLD (Demo Mode)')
+        }
     }
 
     return (

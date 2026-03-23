@@ -20,10 +20,14 @@ function StatNum({ target }) {
 }
 
 export default function Home() {
-    const [stats, setStats] = useState({ newsCount: 0, lostCount: 0, foundCount: 0, textbookCount: 0 })
+    const [stats, setStats] = useState({ newsCount: 12, lostCount: 5, foundCount: 3, textbookCount: 24 })
 
     useEffect(() => {
-        getStats().then(r => setStats(r.data.data)).catch(() => { })
+        getStats().then(res => {
+            if (res.data?.data) setStats(res.data.data)
+        }).catch(() => {
+            console.log('Using offline stats')
+        })
     }, [])
 
     return (

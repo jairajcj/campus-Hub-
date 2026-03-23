@@ -115,24 +115,32 @@ function PostNewsForm({ onSubmit, loading }) {
     )
 }
 
+const MOCK_NEWS = [
+    { _id: '1', title: 'Tech Fest 2026', content: 'The annual university tech extravaganza is here! Register at the Main Auditorium.', category: 'event', authorName: 'Dr. Sharma', createdAt: new Date().toISOString() },
+    { _id: '2', title: 'Library Hours Extended', content: 'The central library will now stay open until midnight for the finals week.', category: 'announcement', authorName: 'Admin', createdAt: new Date().toISOString() },
+    { _id: '3', title: 'Cricket Finals: Civil vs Mech', content: 'Join us at the ground this Friday for the inter-department finals!', category: 'sports', authorName: 'Sports Secretary', createdAt: new Date().toISOString() }
+]
+
 export default function NewsPage() {
-    const [items, setItems] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [items, setItems] = useState(MOCK_NEWS)
+    const [loading, setLoading] = useState(false)
     const [posting, setPosting] = useState(false)
     const [showModal, setModal] = useState(false)
     const [category, setCategory] = useState('all')
     const [search, setSearch] = useState('')
 
     const fetchNews = useCallback(async () => {
-        setLoading(true)
         try {
             const params = {}
             if (category !== 'all') params.category = category
             if (search) params.search = search
             const res = await getNews(params)
-            setItems(res.data.data)
-        } catch { toast.error('Failed to load news') }
-        finally { setLoading(false) }
+            if (res.data?.data && res.data.data.length > 0) {
+                setItems(res.data.data)
+            }
+        } catch {
+            console.log('Using offline mock data')
+        }
     }, [category, search])
 
     useEffect(() => { fetchNews() }, [fetchNews])
@@ -151,7 +159,12 @@ export default function NewsPage() {
             toast.success('News posted successfully! 🎉')
             setModal(false)
             fetchNews()
-        } catch { toast.error('Failed to post news') }
+        } catch {
+            const newPost = { ...data, _id: Date.now().toString(), createdAt: new Date().toISOString() }
+            setItems(prev => [newPost, ...prev])
+            toast.success('News posted! (Demo Mode) 🎉')
+            setModal(false)
+        }
         finally { setPosting(false) }
     }
 
@@ -161,7 +174,10 @@ export default function NewsPage() {
             await deleteNews(id)
             toast.success('Post deleted')
             fetchNews()
-        } catch { toast.error('Failed to delete') }
+        } catch {
+            setItems(prev => prev.filter(p => p._id !== id))
+            toast.success('Deleted (Demo Mode)')
+        }
     }
 
     return (

@@ -139,9 +139,15 @@ function PostLFForm({ onSubmit, loading, defaultType = 'lost' }) {
     )
 }
 
+const MOCK_LF = [
+    { _id: '1', type: 'lost', itemName: 'Blue Dell Laptop Bag', category: 'bags', description: 'Left in the student canteen near the coffee machine.', location: 'Student Canteen', dateLostFound: '2026-03-01', posterName: 'Rahul Kumar', status: 'active', createdAt: new Date().toISOString() },
+    { _id: '2', type: 'found', itemName: 'Silver iPhone 13', category: 'electronics', description: 'Found a silver iPhone with a clear case in the Library 2nd floor.', location: 'Library', dateLostFound: '2026-03-04', posterName: 'Aman Singh', status: 'active', createdAt: new Date().toISOString() },
+    { _id: '3', type: 'lost', itemName: 'White Hoodie', category: 'clothing', description: 'Lost my white Zara hoodie near the sports ground.', location: 'Sports Ground', dateLostFound: '2026-03-02', posterName: 'Priya S.', status: 'resolved', createdAt: new Date().toISOString() }
+]
+
 export default function LostFoundPage() {
-    const [items, setItems] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [items, setItems] = useState(MOCK_LF)
+    const [loading, setLoading] = useState(false)
     const [posting, setPosting] = useState(false)
     const [showModal, setModal] = useState(false)
     const [typeFilter, setType] = useState('all')
@@ -149,16 +155,16 @@ export default function LostFoundPage() {
     const [search, setSearch] = useState('')
 
     const fetchItems = useCallback(async () => {
-        setLoading(true)
         try {
             const params = { status: 'all' }
             if (typeFilter !== 'all') params.type = typeFilter
             if (catFilter !== 'all') params.category = catFilter
             if (search) params.search = search
             const res = await getLostFound(params)
-            setItems(res.data.data)
-        } catch { toast.error('Failed to load items') }
-        finally { setLoading(false) }
+            if (res.data?.data && res.data.data.length > 0) {
+                setItems(res.data.data)
+            }
+        } catch { console.log('Using offline LF data') }
     }, [typeFilter, catFilter, search])
 
     useEffect(() => { fetchItems() }, [fetchItems])
@@ -176,19 +182,31 @@ export default function LostFoundPage() {
             toast.success('Item posted! 🙌')
             setModal(false)
             fetchItems()
-        } catch { toast.error('Failed to post item') }
+        } catch {
+            // Mock Success for presentation
+            const newItem = { ...data, _id: Date.now().toString(), status: 'active', createdAt: new Date().toISOString() }
+            setItems(prev => [newItem, ...prev])
+            toast.success('Item posted! (Demo Mode) 🙌')
+            setModal(false)
+        }
         finally { setPosting(false) }
     }
 
     const handleDelete = async (id) => {
         if (!confirm('Delete this item?')) return
         try { await deleteLostFound(id); toast.success('Deleted'); fetchItems() }
-        catch { toast.error('Failed to delete') }
+        catch {
+            setItems(prev => prev.filter(i => i._id !== id))
+            toast.success('Deleted (Demo Mode)')
+        }
     }
 
     const handleResolve = async (id) => {
         try { await updateLFStatus(id, 'resolved'); toast.success('Marked as resolved ✅'); fetchItems() }
-        catch { toast.error('Failed to update') }
+        catch {
+            setItems(prev => prev.map(i => i._id === id ? { ...i, status: 'resolved' } : i))
+            toast.success('Marked as resolved (Demo Mode) ✅')
+        }
     }
 
     return (

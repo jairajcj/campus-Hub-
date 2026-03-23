@@ -124,9 +124,7 @@ def section_icon(slide, emoji, x, y, size=Inches(0.65), bg=SURFACE2, fg=PRIMARY)
     add_text(slide, emoji, x + Inches(0.08), y + Inches(0.04),
              size, size, size=22, align=PP_ALIGN.CENTER)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 1 — TITLE
-# ══════════════════════════════════════════════════════════════════════════
+
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 
@@ -163,9 +161,7 @@ for label, col in [("MongoDB", GREEN), ("Express", MUTED), ("React", CYAN), ("No
 accent_bar(sl)
 slide_number(sl, 1)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 2 — PROJECT OVERVIEW
-# ══════════════════════════════════════════════════════════════════════════
+
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 glow_orb(sl, Inches(12), Inches(1), 3, PRIMARY)
@@ -210,9 +206,6 @@ for i, (icon, title, desc, col) in enumerate(bullets):
 accent_bar(sl)
 slide_number(sl, 2)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 3 — TECH STACK
-# ══════════════════════════════════════════════════════════════════════════
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 glow_orb(sl, Inches(0.5), Inches(6), 3.5, CYAN)
@@ -257,9 +250,7 @@ for i, (letter, name, role, col, points) in enumerate(cards):
 accent_bar(sl)
 slide_number(sl, 3)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 4 — SYSTEM ARCHITECTURE
-# ══════════════════════════════════════════════════════════════════════════
+
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 
@@ -297,10 +288,8 @@ arch_box(sl, Inches(0.5) + (bw + gap)*2, by, bw, bh, "MongoDB Database", "mongoo
 for ax in [Inches(0.5) + bw + Inches(0.04), Inches(0.5) + bw*2 + gap + Inches(0.04)]:
     ay = by + bh/2 - Inches(0.08)
     add_rect(sl, ax, ay, gap - Inches(0.08), Inches(0.07), fill=SURFACE)
-    # arrowhead suggestion (triangle approximation)
     add_text(sl, "⟶", ax, ay - Inches(0.18), gap, Inches(0.4), size=22, color=MUTED, align=PP_ALIGN.CENTER)
 
-# Vite proxy note
 add_text(sl, "⚡ Vite Proxy: /api → :5000 (dev) · Build: static bundle served by Node in prod",
          Inches(0.5), Inches(6.5), Inches(12.33), Inches(0.4),
          size=11, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
@@ -308,9 +297,6 @@ add_text(sl, "⚡ Vite Proxy: /api → :5000 (dev) · Build: static bundle serve
 accent_bar(sl)
 slide_number(sl, 4)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 5 — DATABASE MODELS
-# ══════════════════════════════════════════════════════════════════════════
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 glow_orb(sl, Inches(12.5), Inches(6.5), 4, GREEN)
@@ -364,9 +350,6 @@ model_card(sl, Inches(8.94), Inches(1.4), mw, "📚  Textbook", GREEN,
 accent_bar(sl)
 slide_number(sl, 5)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 6 — API ENDPOINTS
-# ══════════════════════════════════════════════════════════════════════════
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 
@@ -409,9 +392,7 @@ for i, (method, path, desc) in enumerate(endpoints):
 accent_bar(sl)
 slide_number(sl, 6)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 7 — CAMPUS NEWS FEATURE
-# ══════════════════════════════════════════════════════════════════════════
+
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 glow_orb(sl, Inches(11), Inches(1.5), 4, PRIMARY)
@@ -438,7 +419,6 @@ for i, (title, desc) in enumerate(features):
     add_text(sl, desc, fx + Inches(0.2), fy + Inches(0.58), Inches(5.3), Inches(0.85),
              size=11, color=MUTED)
 
-# Mock card preview
 cx = Inches(0.6)
 cy = Inches(6.2)
 add_rect(sl, cx, cy, Inches(12.2), Inches(0.75), fill=SURFACE, line=SURFACE2)
@@ -451,9 +431,7 @@ for label, col, offset in [("Event", CYAN, 0), ("Tech Fest 2026", WHITE, 0.75), 
 accent_bar(sl)
 slide_number(sl, 7)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 8 — LOST & FOUND FEATURE
-# ══════════════════════════════════════════════════════════════════════════
+
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 glow_orb(sl, Inches(11), Inches(6), 4, AMBER)
@@ -478,7 +456,6 @@ for i, (title, col, desc) in enumerate(left_features):
     add_text(sl, desc, Inches(0.7), fy + Inches(0.48), Inches(7.5), Inches(0.42),
              size=11, color=MUTED)
 
-# Right column — workflow box
 add_rect(sl, Inches(8.5), Inches(1.45), Inches(4.35), Inches(5.6), fill=SURFACE2, line=AMBER, line_w=Pt(1.2))
 add_text(sl, "Student Workflow", Inches(8.7), Inches(1.6), Inches(4.0), Inches(0.4),
          size=14, bold=True, color=AMBER, align=PP_ALIGN.CENTER)
@@ -504,9 +481,7 @@ for i, (icon, text, col) in enumerate(steps):
 accent_bar(sl)
 slide_number(sl, 8)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 9 — USED TEXTBOOKS FEATURE
-# ══════════════════════════════════════════════════════════════════════════
+
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 glow_orb(sl, Inches(0.5), Inches(1), 3.5, GREEN)
@@ -541,9 +516,7 @@ for i, (feat, detail) in enumerate(rows):
 accent_bar(sl)
 slide_number(sl, 9)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 10 — UI / UX DESIGN HIGHLIGHTS
-# ══════════════════════════════════════════════════════════════════════════
+
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 glow_orb(sl, Inches(6.5), Inches(0.5), 5, PRIMARY)
@@ -576,9 +549,7 @@ for i, (icon, title, col, desc) in enumerate(design_points):
 accent_bar(sl)
 slide_number(sl, 10)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 11 — FOLDER STRUCTURE
-# ══════════════════════════════════════════════════════════════════════════
+
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 
@@ -623,7 +594,6 @@ tree_right = [
     ("            └── TextbooksPage.jsx",MUTED,4, None),
 ]
 
-# Code block background
 add_rect(sl, Inches(0.5), Inches(1.45), Inches(12.33), Inches(5.7), fill=SURFACE2)
 
 for i, (text, col, indent, hl) in enumerate(tree_left):
@@ -643,9 +613,7 @@ for i, (text, col, indent, hl) in enumerate(tree_right):
 accent_bar(sl)
 slide_number(sl, 11)
 
-# ══════════════════════════════════════════════════════════════════════════
-# SLIDE 12 — FUTURE ENHANCEMENTS & CONCLUSION
-# ══════════════════════════════════════════════════════════════════════════
+
 sl = prs.slides.add_slide(blank_layout)
 slide_bg(sl)
 glow_orb(sl, Inches(1),    Inches(6),   3.5, PRIMARY)
